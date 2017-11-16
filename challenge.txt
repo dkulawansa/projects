@@ -1,0 +1,63 @@
+Part I: The Project
+Create a Python command-line application that will retrieve sequence data and perform a simple string-based analysis of the data.  
+The application should accept at least four input parameters: a database name, a database identifier, a regular expression (regex) 
+string, and an output file name.  
+
+The identifier and database name correspond to a sequence record in the GenBank databases for DNA and protein sequences.
+
+First, your application must generate a network request to the NCBI Database. NCBI provides a utility called "eFetch" that enables you to easily retrieve data.  
+(If you want more detail, complete information about eFetch is available at: http://www.ncbi.nlm.nih.gov/books/NBK25499).
+
+For example, if you specify the nucleotide database and an id of 30271926, this corresponds to the complete genome of 
+the SARS virus and is retrieved with the following URL:
+http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=30271926&rettype=fasta&retmode=xml
+
+If you issue the request above, you will receive a document in the NCBI TinySeq XMLformat, which looks something like this:
+
+<?xml version="1.0"?>
+<!DOCTYPE TSeqSet PUBLIC "-//NCBI//NCBI TSeq/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_TSeq.dtd">
+<TSeqSet>
+<TSeq>
+<TSeq_seqtype value="nucleotide"/>
+<TSeq_gi>30271926</TSeq_gi>
+<TSeq_accver>NC_004718.3</TSeq_accver>
+<TSeq_sid>gnl|NCBI_GENOMES|17014</TSeq_sid>
+<TSeq_taxid>227859</TSeq_taxid>
+<TSeq_orgname>SARS coronavirus</TSeq_orgname>
+<TSeq_defline>SARS coronavirus, complete genome</TSeq_defline>
+<TSeq_length>29751</TSeq_length>
+
+<TSeq_sequence>ATATTAGGTTTTTACCTACCCAGGAAAAGCCAACCAACCTC…
+…TAGCTTCTTAGGAGAATGACAAAAAAAAAAAAAAAAAAAAAAAA</TSeq_sequence>
+</TSeq>
+
+</TSeqSet>
+
+In the example URL above, your application will just replace the db and id parameter values with the database and id parameters you get from the user.
+
+While properly handling any out-of-bound input parameters and database query errors (with reasonably concise messages sent to stderr), 
+your application also will need to parse the XML file, extract the sequence data between the <TSeq_sequence> and </TSeq_sequence> tags, 
+and then identify all occurrences of the regex within the retrieved sequence.
+Besides the error stream to stderr, the application will generate at least two additional output streams: one to a newly created file with
+ the user-supplied file name and the other to stdout.  
+ 
+To the output file, your application must write out the specific hit sequences, and their start and end locations in CSV format, 
+with one hit per row.  [Please note that in regards to start and end locations in this output (a) the first character in the 
+retrieved sequence is at position 1 (i.e., by convention biologists start counting at 1, not 0), and (b) both of the start 
+and end locations of the hits are inclusive (i.e., the start and end locations of the hit should correspond to the offset positions 
+of the first and last characters, respectively).]  
+
+To stdout, the application should generate a list of specific hit sequences along with the number of times the specific hit was 
+observed—tab-delimited and sorted (greatest to least) by the latter. 
+For your project, you may wish to take advantage of existing Python modules to query NCBI databases, parse XML and perform regular 
+expression string searches.  These may include the urllib2, expat and re modules.  You may use any data structure(s) of your choosing, 
+but be aware that sequences may be very long.  For example, the sequence of human chromosome 1 (nucleotide database id 224589800) 
+is just shy of 250 million characters long.
+
+Part II: Example stdout and output file
+Run your application with the following input parameters:
+1.	Database = “nucleotide”
+2.	Unique id = 224589800
+3.	Output filename = “out.txt”
+4.	Regex pattern = “(A|C|G|T)”
+
