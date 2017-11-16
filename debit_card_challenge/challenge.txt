@@ -1,0 +1,30 @@
+
+Create an application that mimics a simplistic debit card system. For our purposes, account
+information is stored in memory only, and will be lost when the application exits.
+One feature of these accounts is special support for restaurants. After a customer provides their
+credit card to pay for a meal, the server does not know how large a tip they will leave if they choose
+to leave one on the card. The restaurant's credit card terminal is typically set to authorize (hold) the
+cost of the meal, but the transaction will settle for the actual total including the actual tip written
+on the receipt.
+
+Supported​ ​Actions
+● create_account (initial balance)
+	○ creates a new account with an initial balance, and returns the new account_id
+● charge(account_id, amount)
+	○ A regular charge to the card, without a hold. Debits the balance on the account.
+● hold(account_id, vendor_id, amount)
+	○ places a hold on the amount requested
+● settle_hold(account_id, vendor_id, actual_amount)
+	○ releases the hold, and debits the actual amount
+Details
+	● If a charge or hold is requested, and there are insufficient funds, the transaction is rejected,
+	and the balance is unchanged.
+	● When a hold is requested, the held funds are not available. Only one hold per vendor id per
+	account.
+	● When settle_hold is called, the original hold is released, and the actual_amount is charged to
+	the account. If the actual_amount exceeds available funds, the transaction is declined and
+	the held funds are released.
+	● The code should be unit tested, and kept as clean and simple as possible.
+	● The format of the requests and responses is up to you.
+	● If you like, you can create a command line interface, but it is fine to show that the
+	application works correctly through unit tests alone.
