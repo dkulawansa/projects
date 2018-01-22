@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Interview Question</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    .dotted {border: 2px dotted #ff0000; border-style: none none dotted; color: #fff; background-color: #fff; }
+    .div_bg {background-color:LightGray;}
+    @media only screen and (max-width: 768px) {
+    .text-align {
+     text-align: center;
+    }
+}
+</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
+  "></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  var data = [
+    {
+        "image": "http://free.clipartof.com/174-Devil-Avatar-Character-With-Horns-And-Fangs-Free-Vector-Clipart-Illustration.jpg",
+        "name": "Jeremy",
+        "timestamp": "1474658574000",
+        "secret": "red"
+    },
+    {
+        "image": "http://images.clipartpanda.com/avatar-20clip-20art-169-Propeller-Hat-Nerd-Avatar-Character-Free-Vector-Clipart-Illustration.jpg",
+        "name": "Greg",
+        "timestamp": "1477509774000",
+        "secret": "green"
+    },
+    {
+        "image": "http://free.clipartof.com/163-Strawberry-Candy-Swirl-Avatar-Character-Free-Vector-Clipart-Illustration.jpg",
+        "name": "Patrick",
+        "timestamp": "1428002688000",
+        "secret": "pink"
+    }
+];
+
+    function sortJSON(data, key) {
+      return data.sort(function(a, b) {
+        var x = a[key];
+        var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+    }
+
+    data_row = sortJSON(data, 'timestamp');
+    $.each(data_row, function(i, item) {
+      $(document).ready(function() {
+        $('#r' + i).click(function(e) {
+          $('#td1').css({
+            'background-color': item.secret
+          })
+          $('#td1').html(item.secret)
+        });
+        $('#td2').click(function(e) {
+          $('#td1').css({
+            'background-color': 'white'
+          });
+          $('#td1').html('???');
+        })
+      });
+
+      var d = new Date(parseInt(item.timestamp));
+      var date = d.toLocaleDateString();
+      var html = $('<div>', {
+        id: 'r' + i,
+        'class': 'row div_bg'
+      });
+      html.append($("<div class='col-sm-2'>").append("<img class='img-responsive img-circle' src=" + item.image + ">"));
+      html.append($("<div class='col-sm-10 text-center'>")).append("<h1 class='text-align'>" + (item.name).toUpperCase() + "</h1>")
+      html.append($("<div class='col-sm-10 text-center'>")).append("<h6 class='text-align'>" + date + "</h6>" )
+      html.append($("<div class='row text-center'>"));
+      if(i != data.length-1){
+      html.append($('<hr>', {
+        id: 'hr' + i,
+        'class': 'dotted'
+      }));
+      }
+      $("#container").append(html);
+    });
+  </script>
+</head>
+<body>
+<div class="container" id="container">
+    <table class="table table-bordered  table-responsive text-center">
+    <tbody>
+       <tr>
+        <td></td>
+      </tr>
+      <tr>
+        <td id ="td1">???</td>
+      </tr>
+      <tr class="active">
+        <td id = "td2">Clear</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  </body>
+</html>
