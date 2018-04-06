@@ -1,0 +1,13 @@
+<h2>Edit Distance </h2>
+<div class="col-md-8 col-md-offset-2">
+ <div class="form-group">
+  <input type="text" [(ngModel)]="id_str_a" class="form-control" placeholder="Enter First String ..."><br>
+  <input type="text" [(ngModel)]="id_str_b" class="form-control" placeholder="Enter Second String ..."><br>
+  <button type="button" class="btn btn-primary" (click)="callEditdistanceService()">Submit</button>
+  <br><br><br>
+  <br>
+  <p class="well lead">
+    <i>Caclulated Edit Distance :</i> {{ this.op_editdist }} <br>
+  </p>
+ </div>
+</div>
